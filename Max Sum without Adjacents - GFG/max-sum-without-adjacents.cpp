@@ -7,20 +7,21 @@ using namespace std;
 // } Driver Code Ends
 //User function template for C++
 class Solution{
-    private:
-    int helper(int index, int *arr, vector<int>& dp, int n){
-        if(index == 0) return arr[index];
-        if(index < 0) return 0;
-        if(dp[index] != -1) return dp[index];
-        int pick = arr[index] + helper(index-2, arr, dp, n);
-        int notPick = 0 + helper(index-1, arr, dp, n);
-        return dp[index] = max(pick, notPick);
-    }
 public:	
 	// calculate the maximum sum with out adjacent
 	int findMaxSum(int *arr, int n) {
-	    vector<int>dp(n+1, -1);
-	    return helper(n-1, arr, dp, n );
+	    int prev = arr[0];
+	    int prev2 = 0;
+	    for(int i=1; i<n; i++){
+	        int take = arr[i];
+	        if(i>1) take+=prev2;
+	        int notTake = 0 + prev; 
+	        int curii = max(take, notTake);
+	        prev2 = prev;
+	        prev = curii;
+	        
+	    }
+	    return prev;
 	}
 };
 
