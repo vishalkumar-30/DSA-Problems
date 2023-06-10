@@ -5,31 +5,24 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
     private:
-    bool bfs(int src, vector<int> adj[], int vis[]){
-        vis[src] = 1; 
-      // store <source node, parent node>
-      queue<pair<int,int>> q; 
-      q.push({src, -1}); 
-      // traverse until queue is not empty
-      while(!q.empty()) {
-          int node = q.front().first; 
-          int parent = q.front().second; 
-          q.pop(); 
-          
-          // go to all adjacent nodes
-          for(auto adjacentNode: adj[node]) {
-              // if adjacent node is unvisited
-              if(!vis[adjacentNode]) {
-                  vis[adjacentNode] = 1; 
-                  q.push({adjacentNode, node}); 
-              }
-              // if adjacent node is visited and is not it's own parent node
-              else if(parent != adjacentNode) {
-                  // yes it is a cycle
-                  return true; 
-              }
-          }
-      }
+    bool bfs(int s, vector<int> adj[], int vis[]){
+        vis[s]=1;
+        queue<pair<int, int>> q;
+        q.push({s, -1});
+        while(!q.empty()){
+            int node = q.front().first;
+            int parent = q.front().second;
+            q.pop();
+            for(auto adjNode:adj[node]){
+                if(!vis[adjNode]){
+                    vis[adjNode]=1;
+                    q.push({adjNode, node});
+                }
+                else if(parent != adjNode){
+                    return true;
+                }
+            }
+        }
         return false;
     }
   public:
