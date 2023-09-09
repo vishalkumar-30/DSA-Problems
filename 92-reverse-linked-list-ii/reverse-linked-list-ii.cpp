@@ -1,41 +1,27 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
 class Solution {
-private:
-    ListNode* reverseList(ListNode* head)
-    {
-        ListNode* prev = NULL;
-        ListNode* curr = head;
-        while (curr != NULL) {
-            ListNode* nextTemp = curr->next;
-            curr->next = prev;
-            prev = curr;
-            curr = nextTemp;
-        }
-        return prev;
-    }
 public:
     ListNode* reverseBetween(ListNode* head, int left, int right) {
-        ListNode*init=new ListNode(0);
-        init->next=head;
-        ListNode* start=head;
-        ListNode* end=NULL, *prev=init;
-        int pos=1;
-        while(start && pos!=left){
-            prev=start;
-            start=start->next;
-            pos++;
+        ListNode* temp = new ListNode(0);
+        temp->next=head;
+        ListNode *prev=temp;
+        for(int i=0; i<left-1; i++) prev = prev->next;
+        ListNode *curr = prev->next;
+        for(int i=0; i<right-left; i++){
+            ListNode *frnt = curr->next;
+            curr->next = frnt->next;
+            frnt->next = prev->next;
+            prev->next = frnt;
         }
-        end=start;
-        pos=0;
-        while(end && pos<right-left){
-            end=end->next;
-            pos++;
-        }
-        if(!end) return init->next;
-        ListNode* tempEnd = end->next;
-        end->next=NULL;
-        ListNode* temp = reverseList(start);
-        prev->next=temp;
-        start->next = tempEnd;
-        return init->next;
+        return temp->next;
     }
 };
