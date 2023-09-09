@@ -1,17 +1,17 @@
 class Solution {
-    private:
-        ListNode* reverseList(ListNode* head)
+private:
+    ListNode* reverseList(ListNode* head)
     {
-        if (head == NULL || head->next == NULL)
-            return head;
-        // Recursive call
-        ListNode* rest = reverseList(head->next);
-        head->next->next = head;
-        
-        head->next = NULL;
- 
-        return rest;
-    } 
+        ListNode* prev = NULL;
+        ListNode* curr = head;
+        while (curr != NULL) {
+            ListNode* nextTemp = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = nextTemp;
+        }
+        return prev;
+    }
 public:
     ListNode* reverseBetween(ListNode* head, int left, int right) {
         ListNode*init=new ListNode(0);
