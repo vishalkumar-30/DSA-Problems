@@ -12,7 +12,7 @@ public:
         return dp[start+1000][k] = (left + right)%M;
     }
     int numberOfWays(int startPos, int endPos, int k) {
-        vector<vector<int>>dp(3001,vector<int>(k+1, -1));
+        vector<vector<int>>dp(3000,vector<int>(k+1, -1));
         return helper(startPos, endPos, k, dp);
     }
 };
