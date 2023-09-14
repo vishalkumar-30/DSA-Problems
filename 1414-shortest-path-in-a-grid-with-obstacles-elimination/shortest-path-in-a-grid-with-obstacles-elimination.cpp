@@ -14,9 +14,9 @@ private:
 
         vis[i][j]=1;
         int top = 1+f(i-1, j,k,grid,vis, dp);
-    int left =1+f(i, j-1,k,grid,vis, dp);
-    int down =1+f(i+1, j,k,grid,vis, dp);
-    int right = 1+f(i, j+1,k,grid,vis, dp);
+        int left =1+f(i, j-1,k,grid,vis, dp);
+        int down =1+f(i+1, j,k,grid,vis, dp);
+        int right = 1+f(i, j+1,k,grid,vis, dp);
     
         vis[i][j] = 0;
 
