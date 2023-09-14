@@ -1,33 +1,30 @@
+#include<bits/stdc++.h>
+using namespace std;
+
 class Solution {
-private:
-    int f(int i, int j, int k, vector<vector<int>>& grid, vector<vector<int>> &vis, vector<vector<vector<int>>>&dp){
-        if(i==0 && j==0) dp[i][j][k]=0;
-
-        if(i<0 || j<0|| i>=grid.size() || j>=grid[0].size() || vis[i][j]) return 1e6;
-
-        if(dp[i][j][k]!=-1) return dp[i][j][k];
-
-        if(grid[i][j]==1){
-            if(k==0) return 1e6;
-            else k--;
-        }
-
-        vis[i][j]=1;
-        int top = 1+f(i-1, j,k,grid,vis, dp);
-        int left =1+f(i, j-1,k,grid,vis, dp);
-        int down =1+f(i+1, j,k,grid,vis, dp);
-        int right = 1+f(i, j+1,k,grid,vis, dp);
-    
-        vis[i][j] = 0;
-
-        return dp[i][j][k] = min({top, left, down, right});
-    }
 public:
     int shortestPath(vector<vector<int>>& grid, int k) {
-        int n = grid.size(), m=grid[0].size();
-        vector<vector<vector<int>>>dp(n, vector<vector<int>>(m, vector<int>(k+1, -1)));
-        vector<vector<int>> vis(n, vector<int>(m, 0));
-        int ans = f(n-1, m-1, k, grid, vis, dp);
-        return ans > n*m ? -1 : ans;
+        int m = grid.size(), n = grid[0].size();
+        vector<vector<vector<int>>> visited(m, vector<vector<int>>(n, vector<int>(k + 1, INT_MAX)));
+        priority_queue<vector<int>, vector<vector<int>>, greater<vector<int>>> pq;
+        pq.push({0, 0, 0, k});
+        visited[0][0][k] = 0;
+        while (!pq.empty()) {
+            auto cur = pq.top(); pq.pop();
+            int d = cur[0], x = cur[1], y = cur[2], rest = cur[3];
+            if (x == m - 1 && y == n - 1) return d;
+            for (int i = 0; i < 4; ++i) {
+                int nx = x + dx[i], ny = y + dy[i];
+                if (nx < 0 || nx >= m || ny < 0 || ny >= n) continue;
+                int nrest = rest - grid[nx][ny];
+                if (nrest >= 0 && d + 1 < visited[nx][ny][nrest]) {
+                    visited[nx][ny][nrest] = d + 1;
+                    pq.push({d + 1, nx, ny, nrest});
+                }
+            }
+        }
+        return -1;
     }
+private:
+    vector<int> dx{0, -1, 0, 1}, dy{-1, 0, 1, 0};
 };
