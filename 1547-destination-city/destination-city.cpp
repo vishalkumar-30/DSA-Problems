@@ -9,8 +9,8 @@ public:
         }
 
         // Find destination city with no outgoing path
-        for (const auto& path : paths) {
-            const std::string& dest = path[1];
+        for (auto& path : paths) {
+            string dest = path[1];
             if (cities.find(dest) == cities.end()) {
                 return dest;
             }
