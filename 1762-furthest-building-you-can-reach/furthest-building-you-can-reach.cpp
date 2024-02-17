@@ -1,8 +1,8 @@
 class Solution {
 public:
     int furthestBuilding(vector<int>& heights, int bricks, int ladders) {
-        int ans = 0;
-        if(heights.size() == 1) return 0;
+        // int ans = 0;
+        // if(heights.size() == 1) return 0;
         priority_queue<int, vector<int>, greater<int>> minh;
         for(int i=0; i<heights.size()-1; i++){
             int diff = heights[i+1] - heights[i];
@@ -12,8 +12,8 @@ public:
                 minh.pop();
             }
             if(bricks<0) return i;
-            ans = i;
+            // ans = i;
         }
-        return ans+1;
+        return heights.size()-1;
     }
 };
