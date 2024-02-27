@@ -12,7 +12,7 @@
 class Solution {
 private:
     int helper(TreeNode* root, int& sum){
-        if(root == NULL) return 0;
+        if(!root) return 0;
         int left = 0, right=0;
         if(root->left) left = helper(root->left, sum)+1;
         if(root->right) right =  helper(root->right, sum)+1;
