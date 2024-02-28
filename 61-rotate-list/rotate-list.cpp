@@ -19,6 +19,7 @@ public:
             cnt++;
         }
         if(k>cnt) k = k%cnt;
+        if(cnt == k) return head;
         temp = head;
         while(temp->next){
             temp = temp->next;
@@ -29,7 +30,7 @@ public:
         temp->next = head;
         head = prev->next;
         prev->next = NULL;
-        if(k>0)return rotateRight(head, k);
+        // if(k>0)return rotateRight(head, k);
         return head;
     }
 };
