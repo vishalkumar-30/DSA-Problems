@@ -15,34 +15,49 @@ public:
 */
 
 class Solution {
+private:
+    void insert(Node* head){
+        Node* temp = head;
+        while(temp){
+            Node* curr = new Node(temp->val);
+            curr->next = temp->next;
+            temp->next = curr;
+            temp = temp->next->next;
+        }
+        return ;
+    }
+    void connect(Node* head){
+        Node* temp = head;
+       
+        while(temp){
+            Node* latest = temp->next;
+            if(temp->random) latest->random = temp->random->next;
+            else latest->random = NULL;
+            temp = temp->next->next;
+            // latest = latest->next->next;
+        }
+        return ;
+    }
+    Node* copy(Node* head){
+        Node* dummy = new Node(-1);
+        Node* temp = dummy;
+        Node* curr = head;
+        // temp->next = head->next;
+        while(curr){
+            temp->next = curr->next;
+            temp = temp->next;
+
+            curr->next = curr->next->next;
+            curr = curr->next;
+        }
+        return dummy->next;
+    }
 public:
     Node* copyRandomList(Node* head) {
-        Node* itr=head;
-        Node* fr=head;
-        while(itr!=NULL){
-            fr = itr->next;
-            Node* copy = new Node(itr->val);
-            itr->next = copy;
-            copy->next = fr;
-            itr = fr;
-        }
+        if(head==NULL) return head;
+        insert(head);
+        connect(head);
+        return copy(head);
 
-        itr = head;
-        while(itr){
-            if(itr->random) itr->next->random = itr->random->next;
-            itr = itr->next->next;
-        }
-
-        itr = head;
-        Node* dumy = new Node(0);
-        Node* copy = dumy;
-        while(itr){
-            fr=itr->next->next;
-            copy->next = itr->next;
-            itr->next = fr;
-            copy = copy->next;
-            itr = fr;
-        }
-        return dumy->next;
     }
 };
