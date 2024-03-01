@@ -1,26 +1,28 @@
 class Solution {
 public:
     string longestPalindrome(string s) {
-        int n = s.size();
-        if(n <= 1) return s;
+        int maxlen = 0, n = s.size();
+        string res ="";
         vector<vector<int>>dp(n, vector<int>(n, 0));
-        string ans;
-        int mxlen = 1;
-        int start=0, end = 0;
-
-        for(int i=0; i<n; i++){
-            dp[i][i]=1;
-            for(int j=0; j<i; ++j){
-                if(s[j] == s[i] && (i-j <= 2 || dp[j+1][i-1])) {
-                    dp[j][i] = 1;
-                    if(i-j+1>mxlen){
-                        mxlen = i-j+1;
-                        start = j;
-                        end = i;
+        for(int diff=0; diff<n; diff++){
+            for(int i=0, j=i+diff; i<n, j<n; i++, j++){
+                if(i==j) dp[i][j] = 1;
+                else if(diff == 1){
+                    if(s[i]==s[j]) dp[i][j] = 2;
+                }
+                else{
+                    if(s[i]==s[j] && dp[i+1][j-1]){
+                        dp[i][j] = 2+dp[i+1][j-1];
+                    }
+                }
+                if(dp[i][j]){
+                    if(diff+1 > maxlen){
+                        maxlen = diff+1;
+                        res = s.substr(i, diff+1);
                     }
                 }
             }
         }
-        return s.substr(start, end-start+1);
+        return res;
     }
 };
