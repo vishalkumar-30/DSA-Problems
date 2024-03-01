@@ -1,16 +1,23 @@
 class Solution {
 public:
     string maximumOddBinaryNumber(string s) {
-        int one=0, zero=0;
-        for(int it : s){
-            if(it == '1')one++;
-            else zero++;
+        int n = s.length();
+        int cnt=0;
+        for(int i=0; i<n; i++){
+            if(s[i]=='1') cnt++;
 
         }
-        s="";
-        for(int i=1; i<one; i++) s += '1';
-        for(int i=0; i<zero; i++) s+='0';
-        s += '1';
-        return s;
+        string res(n, '0');
+        if(cnt >= 1){
+            res[n-1] = '1';
+            cnt--;
+        }
+        int i=0;
+        while(cnt){
+            res[i] = '1';
+            cnt--;
+            i++;
+        }
+        return res;
     }
 };
