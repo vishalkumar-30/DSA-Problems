@@ -27,7 +27,7 @@ public:
                     
                     while(isPossible(x, y, m, n)){
                         temp = temp*10 + mat[x][y];
-                        if(temp > 10 && isPrime(temp)) {
+                        if( isPrime(temp)) {
                             // number = temp;
                             fq[temp]++;
                         }
