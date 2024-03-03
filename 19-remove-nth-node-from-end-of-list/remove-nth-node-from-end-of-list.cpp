@@ -15,19 +15,18 @@ public:
         while(n){
             fast = fast->next;
             n--;
-            // if(fast == NULL) break;
-        } 
-        if(fast == NULL) {
-            ListNode *deleteNode = head;
+        }
+        if(fast == NULL){
+            ListNode* deleteNode = head;
             head = head->next;
             delete(deleteNode);
             return head;
         }
-        while(fast->next!=NULL){
-            fast = fast->next;
+        while(fast->next){
             slow = slow->next;
+            fast = fast->next;
         }
-        ListNode *deleteNode = slow->next;
+        ListNode* deleteNode = slow->next;
         slow->next = slow->next->next;
         delete(deleteNode);
         return head;
