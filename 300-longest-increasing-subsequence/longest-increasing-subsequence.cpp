@@ -1,18 +1,20 @@
 class Solution {
 public:
-int helper(int ind, int prevInd, vector<int>&nums, vector<vector<int>> &dp){
-    if(ind == nums.size()) return 0;
-    if(dp[ind][prevInd+1] != -1) return dp[ind][prevInd+1];
-    int len = 0 + helper(ind + 1, prevInd, nums, dp);
-    if(prevInd == -1 || nums[ind] > nums[prevInd]){
-        len = max(len, 1+helper(ind+1, ind, nums, dp));
-    }
-    return dp[ind][prevInd+1] = len;
-}
+// This is anothewr tabulation
     int lengthOfLIS(vector<int>& nums) {
-        int ans = 0, n = nums.size();
-        int previndx = -1;
-        vector<vector<int>>dp(n, vector<int>(n+1, -1));
-        return helper(0, -1, nums, dp);
+        int n = nums.size();
+        int maxi = -1;
+        vector<int>dp(n, 1);
+
+        for(int ind=0; ind<n; ind++){
+            for(int prev=0; prev<ind; prev++){
+                if(nums[ind]>nums[prev]){
+                    dp[ind] = max(dp[ind], 1 + dp[prev]);
+                }
+            }
+            maxi = max(maxi, dp[ind]);
+        }
+
+        return maxi;
     }
 };
