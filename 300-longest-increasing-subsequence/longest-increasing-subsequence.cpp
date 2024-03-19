@@ -1,20 +1,19 @@
 class Solution {
 public:
-// This is anothewr tabulation
+// This is finding length with the help of binary search
     int lengthOfLIS(vector<int>& nums) {
         int n = nums.size();
-        int maxi = -1;
-        vector<int>dp(n, 1);
-
-        for(int ind=0; ind<n; ind++){
-            for(int prev=0; prev<ind; prev++){
-                if(nums[ind]>nums[prev]){
-                    dp[ind] = max(dp[ind], 1 + dp[prev]);
-                }
+        vector<int>temp;
+        temp.push_back(nums[0]);
+        for(int i=1; i<n; i++){
+            if(nums[i] > temp.back()) {
+                temp.push_back(nums[i]);
             }
-            maxi = max(maxi, dp[ind]);
+            else {
+                int ind = lower_bound(temp.begin(), temp.end(), nums[i]) - temp.begin();
+                temp[ind] = nums[i];
+            }
         }
-
-        return maxi;
+        return temp.size();
     }
 };
