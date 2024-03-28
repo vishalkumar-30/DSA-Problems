@@ -1,19 +1,18 @@
 class Solution {
 public:
-// This is finding length with the help of binary search
+int helper(int ind, int prevind, vector<int> &nums, vector<vector<int>>&dp){
+    if(ind == nums.size()) return 0;
+    if(dp[ind][prevind+1] != -1) return dp[ind][prevind+1];
+    int len = 0;
+    if(prevind==-1 || nums[ind] > nums[prevind]){
+        len = 1 + helper(ind+1, ind, nums, dp);
+    }
+    return dp[ind][prevind+1] = max(len, helper(ind+1, prevind, nums, dp));
+
+}
     int lengthOfLIS(vector<int>& nums) {
         int n = nums.size();
-        vector<int>temp;
-        temp.push_back(nums[0]);
-        for(int i=1; i<n; i++){
-            if(nums[i] > temp.back()) {
-                temp.push_back(nums[i]);
-            }
-            else {
-                int ind = lower_bound(temp.begin(), temp.end(), nums[i]) - temp.begin();
-                temp[ind] = nums[i];
-            }
-        }
-        return temp.size();
+        vector<vector<int>> dp(n, vector<int>(n+1, -1));
+        return helper(0, -1, nums, dp);
     }
 };
