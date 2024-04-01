@@ -16,8 +16,23 @@ public:
             sum += i;
         }
         if(sum%2 != 0) return false;
-        int target = sum/2;
-        vector<vector<int>>dp(n, vector<int>(target+1, -1));
-        return helper(n-1, nums, target, dp);
+        int t = sum/2;
+        vector<vector<int>>dp(n, vector<int>(t+1, false));
+
+        for(int ind=0; ind<nums.size(); ind++) dp[ind][0] = true;
+        for(int target = 0; target<=t; target++) {
+            if(nums[0] == target) dp[0][target] = true;
+        }
+
+        for(int ind=1; ind<nums.size(); ind++){
+            for(int target=0; target<=t; target++){
+                bool nP = dp[ind-1][target];
+                bool P = false;
+                if(nums[ind] <= target) P = dp[ind-1][target-nums[ind]];
+                dp[ind][target]=nP || P;
+            }
+        }
+
+        return dp[n-1][t];
     }
 };
