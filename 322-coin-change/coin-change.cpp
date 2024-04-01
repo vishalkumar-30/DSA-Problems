@@ -1,35 +1,22 @@
 class Solution {
-// private:
-//     int function(int idx, int target, vector<int> &coins, vector<vector<int>> &dp){
-//         if(idx==0){
-//             if(target%coins[idx]==0) return target/coins[idx];
-//             else return 1e9;
-//         }
-//         if(dp[target][idx] != 0) return dp[target][idx];
-//         int notTake = 0 + function(idx-1, target, coins, dp);
-//         int take = INT_MAX;
-//         if(coins[idx]<=target) take = 1 + function(idx, target-coins[idx], coins, dp);
-//         return dp[target][idx] = min(notTake, take);
-//     }
 public:
+    int helper(vector<int>& coins, int target, int ind, vector<vector<int>>& dp){
+        if(ind == 0){
+            if(target%coins[ind] == 0) return target/coins[ind];
+            else return 1e9;
+        }
+        if(dp[ind][target]!=-1) return dp[ind][target];
+        int nT = helper(coins, target, ind-1, dp);
+        int T = INT_MAX;
+        if(coins[ind]<=target) T = 1 + helper(coins, target-coins[ind], ind, dp);
+        return dp[ind][target] = min(nT, T);
+    }
     int coinChange(vector<int>& coins, int amount) {
-        int ans = 0;
         int n = coins.size();
-        vector<vector<int>>dp(amount+1, vector<int>(n, 0));
-        for(int t=0; t<=amount; t++){
-            if(t%coins[0]==0) dp[t][0] = t/coins[0];
-            else dp[t][0]=1e9;
-        }
-        for(int idx=1; idx<n; idx++){
-            for(int target=0; target<=amount; target++){
-                int notTake = 0 + dp[target][idx-1];
-                int take = INT_MAX;
-                if(coins[idx]<=target) take = 1 + dp[target-coins[idx]][idx];
-                dp[target][idx] = min(notTake, take);
-            }
-        }
-        ans = dp[amount][n-1];
-        if(ans>=1e9) return -1;
+        int ans = 0;
+        vector<vector<int>> dp(coins.size(), vector<int>(amount+1, -1));
+        ans = helper(coins, amount, n-1, dp);
+        if(ans == 1e9 ) return -1;
         return ans;
     }
 };
