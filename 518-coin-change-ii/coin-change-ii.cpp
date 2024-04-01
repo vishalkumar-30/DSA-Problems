@@ -14,21 +14,21 @@ class Solution {
 public:
     int change(int amp, vector<int>& coins) {
         int n = coins.size();
-        vector<vector<int>>dp(n, vector<int>(amp+1, 0));
-
+        vector<int>prev(amp+1, 0), curr(amp+1, 0);
         for(int i=0; i<=amp; i++) {
-            if(i%coins[0] == 0) dp[0][i] = 1;
+            if(i%coins[0] == 0) prev[i] = 1;
         }
         for(int ind=1; ind<n; ind++){
             for(int amount=0; amount<=amp; amount++){
-                int nT = dp[ind-1][amount];
+                int nT = prev[amount];
                 int T = 0;
                 if(coins[ind] <= amount){
-                    T = dp[ind][amount-coins[ind]];
+                    T = curr[amount-coins[ind]];
                 }
-                dp[ind][amount] = T+nT;
+                curr[amount] = T+nT;
             }
+            prev = curr;
         }
-        return dp[n-1][amp];
+        return prev[amp];
     }
 };
