@@ -11,18 +11,14 @@ int helper(int ind, int prevind, vector<int> &nums, vector<vector<int>>&dp){
 
 }
     int lengthOfLIS(vector<int>& nums) {
-        int n = nums.size();
-        vector<int> next(n+1, 0), curr(n+1, 0);
-        for(int ind = n-1; ind>=0; ind--){
-            for(int prevind = n-1; prevind>=-1; prevind--){
-                int len = 0;
-                if(prevind==-1 || nums[ind] > nums[prevind]){
-                    len = 1 + next[ind+1];
-                }
-                curr[prevind+1] = max(len, next[prevind+1]);
+        int n = nums.size(), maxi=-1;
+        vector<int> dp(n, 1);
+        for(int i=0; i<nums.size(); i++){
+            for(int prev = 0; prev<i; prev++){
+                if(nums[prev]<nums[i]) dp[i] = max(dp[i], dp[prev]+1);
             }
-            next = curr;
+            maxi = max(maxi, dp[i]);
         }
-        return next[-1+1];
+        return maxi;
     }
 };
